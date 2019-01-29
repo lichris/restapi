@@ -30,23 +30,20 @@ describe('GET: /v1/users', () => {
     let response = await request(app)
       .get(`/v1/users`)
 
-    expect(response.body.length)
-      .toBeGreaterThan(1)
+    expect(response.body.length).toBeGreaterThan(1)
   })
 
   test('uuid 로 사용자 조회. | 200', async () => {
     let response = await request(app)
       .get(`/v1/users/${user.uuid}`)
 
-    expect(response.body.email)
-      .toBe(user.email)
+    expect(response.body.email).toBe(user.email)
   })
 
   test('잘못된 uuid 로 사용자 조회. | 404', async () => {
     let response = await request(app)
       .get(`/v1/users/${uuid()}`)
 
-    expect(response.statusCode)
-      .toBe(404)
+    expect(response.statusCode).toBe(404)
   })
 })

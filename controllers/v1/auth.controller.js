@@ -24,24 +24,32 @@ const login = async (req, res, next) => {
     }
 
     // jwt payload 에 담길 내용
-    const payload = {message: 'access granted'}
+    const payload = {
+      email: user.email,
+      uuid: user.uuid
+    }
 
-    // jwt 를 signing 하는 암호화된 key : 절대 노출 금지
-    const secret = 'secret'
-
-    // jwt 만료 시간 (ms)
-    const ttl = 3600000 // 1 시간
-
-    const token = jwt.sign(payload, secret, {
-      expiresIn: ttl
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRESIN
     })
 
-    return response(res, {token})
+    return response(res, {
+      token
+    })
+  } catch (e) {
+    next(e)
+  }
+}
+
+const tokenTest = async (req, res, next) => {
+  try {
+    return response(res, req.user)
   } catch (e) {
     next(e)
   }
 }
 
 export {
-  login
+  login,
+  tokenTest
 }

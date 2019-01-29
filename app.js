@@ -7,6 +7,9 @@ import logger from 'morgan'
 import response from './utils/response'
 import v1Route from './routes/v1'
 
+// jwt 토큰 middleware
+import jwtMiddleware from './middlewares/jwt.middleware'
+
 const app = express()
 
 app.use(logger('dev'))
@@ -15,6 +18,9 @@ app.use(express.urlencoded({
   extended: false
 }))
 app.use(cookieParser())
+
+// 컨트롤러를 타기 전에 jwt 로부터 user 를 조회
+app.use(jwtMiddleware)
 
 app.use('/v1', v1Route)
 
