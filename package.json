@@ -11,6 +11,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
     "bcrypt": "^3.0.3",
+    "bluebird": "^3.5.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "dotenv": "^6.2.0",
@@ -23,6 +24,7 @@
     "moment": "^2.24.0",
     "morgan": "~1.9.0",
     "mysql2": "^1.6.4",
+    "redis": "^2.8.0",
     "sequelize": "^4.42.0",
     "uuid4": "^1.1.4"
   },
