@@ -48,12 +48,7 @@ module.exports = (sequelize, DataTypes) => {
   })
 
   // 생성 후 캐시에 저장
-  User.afterSave(async (user, options) => {
-    // updatedAt 은 패스
-    if (!user.changed('updatedAt')) {
-      await userCache.store(user)
-    }
-  })
+  User.afterSave((user, options) => userCache.store(user))
 
   // print
   User.prototype.toWeb = function() {
