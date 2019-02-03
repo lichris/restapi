@@ -1,28 +1,59 @@
 import models from '../models'
+import UserCache from '../caches/user.cache'
 
-export default {
-  // CREATE
-  store: async (data) => await models.User.create(data),
+class UserRepository {
+  constructor() {
+    this.userCache = new UserCache()
+  }
 
-  // READ
-  all: async () => await models.User.findAll(),
+  async store(data) {
+    const user = await models.User.create(data)
+    return user.toJSON()
+  }
 
-  find: async (uuid) => {
-    return await models.User.findOne({
-      where: {
-        uuid: Buffer(uuid, 'hex')
-      }
-    })
-  },
-  
-  findById: async (id) => await models.User.findByPk(id),
+  all() {
+    return models.User.findAll()
+  }
 
-  findByEmail: async (email) => await models.User.findOne({
-    where: {
-      email,
+  async find(uuid) {
+    const user = await this.userCache.find(uuid)
+
+    if (user) {
+      // Cache 가 존재할 때,
+      return JSON.parse(user)
+    } else {
+      // Cache 가 존재하지 않으면 DB 에서 받아옴 
+      return models.User.findOne({
+        where: {
+          uuid: Buffer(uuid, 'hex')
+        }
+      })
     }
-  })
-  
-  // UPDATE
-  // DELETE
+  }
+
+  async findById(id) {
+    const user = await this.userCache.findById(id)
+
+    if (user) {
+      return JSON.parse(user)
+    } else {
+      return models.User.findByPk(id)
+    }
+  }
+
+  async findByEmail(email) {
+    const user = await this.userCache.findByEmail(email)
+
+    if (user) {
+      return JSON.parse(user)
+    } else {
+      return models.User.findOne({
+        where: {
+          email,
+        }
+      })
+    }
+  }
 }
+
+export default UserRepository

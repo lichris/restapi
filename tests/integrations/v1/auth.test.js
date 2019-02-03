@@ -4,9 +4,14 @@ import request from 'supertest'
 import randomString from 'random-string'
 import jwt from 'jsonwebtoken'
 import models from '../../../models'
-import userRepo from '../../../repositories/user.repository'
+import UserRepo from '../../../repositories/user.repository'
 
 const app = require('../../../app')
+let userRepo
+
+beforeAll(() => {
+  userRepo = new UserRepo()
+})
 
 afterAll(() => models.sequelize.close())
 
@@ -75,6 +80,5 @@ describe('로그인 테스트', () => {
       .set('Authorization', `Bearer ${token}`)
 
     expect(response.body.data.email).toBe(userData.email)
-    console.log(response.body)
   })
 })

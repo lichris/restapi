@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www --exec babel-node --presets @babel/preset-env",
-    "test": "NODE_ENV=test npm run migrate:reset && NODE_ENV=test npm run migrate && NODE_ENV=test ./node_modules/.bin/jest tests --coverage",
+    "test": "NODE_ENV=test npm run migrate:reset && NODE_ENV=test npm run migrate && NODE_ENV=test ./node_modules/.bin/jest tests",
     "migrate": "sequelize db:migrate",
     "migrate:reset": "sequelize db:migrate:undo:all"
   },

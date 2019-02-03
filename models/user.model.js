@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt'
 import {
   uuid
 } from '../utils/uuid'
-import userCache from '../caches/user.cache'
+import UserCache from '../caches/user.cache'
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -48,7 +48,10 @@ module.exports = (sequelize, DataTypes) => {
   })
 
   // 생성 후 캐시에 저장
-  User.afterSave((user, options) => userCache.store(user))
+  User.afterSave(async (user, options) => {
+    const userCache = new UserCache()
+    await userCache.store(user)
+  })
 
   // print
   User.prototype.toWeb = function() {
