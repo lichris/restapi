@@ -37,7 +37,7 @@ describe('로그인 테스트', () => {
         email: userData.email,
         password: userData.password
       })
-
+      
     expect(response.statusCode).toBe(200)
     expect(response.body.data.token).toBeTruthy()
 
