@@ -16,9 +16,8 @@ beforeAll(() => {
 afterAll(() => models.sequelize.close())
 
 describe('로그인 테스트', () => {
-
-  let userData;
-  let token;
+  let userData
+  let token
 
   beforeAll(async () => {
     userData = {
@@ -37,7 +36,7 @@ describe('로그인 테스트', () => {
         email: userData.email,
         password: userData.password
       })
-      
+
     expect(response.statusCode).toBe(200)
     expect(response.body.data.token).toBeTruthy()
 

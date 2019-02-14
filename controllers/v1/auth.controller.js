@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import UserRepo from '../../repositories/user.repository'
 import response from '../../utils/response'
+import { logger } from '../../configs/winston'
 
 const login = async (req, res, next) => {
   try {
@@ -49,7 +50,4 @@ const tokenTest = async (req, res, next) => {
   }
 }
 
-export {
-  login,
-  tokenTest
-}
+export { login, tokenTest }

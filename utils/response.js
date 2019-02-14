@@ -1,3 +1,4 @@
-const httpStatus = require('http-status');
+const httpStatus = require('http-status')
 
-export default (res, data = {}, code = httpStatus.OK) => res.status(code).json({data})
+export default (res, data = {}, code = httpStatus.OK) =>
+  res.status(code).json({ data })

@@ -22,7 +22,7 @@ class UserRepository {
     let user = await this.userCache.find(uuid)
 
     if (!user) {
-      // Cache 가 존재하지 않으면 DB 에서 받아옴 
+      // Cache 가 존재하지 않으면 DB 에서 받아옴
       user = await models.User.findOne({
         where: {
           uuid: Buffer(uuid, 'hex')
@@ -49,7 +49,7 @@ class UserRepository {
     if (!user) {
       user = await models.User.findOne({
         where: {
-          email,
+          email
         }
       })
     }

@@ -1,38 +1,39 @@
 'use strict'
 
 import bcrypt from 'bcrypt'
-import {
-  uuid
-} from '../utils/uuid'
+import { uuid } from '../utils/uuid'
 
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
-    uuid: {
-      allowNull: false,
-      unique: true,
-      type: 'BINARY(16)',
-      defaultValue: () => Buffer(uuid(), 'hex'),
-      get: function() {
-        return Buffer.from(this.getDataValue('uuid'))
-          .toString('hex')
+  const User = sequelize.define(
+    'User',
+    {
+      uuid: {
+        allowNull: false,
+        unique: true,
+        type: 'BINARY(16)',
+        defaultValue: () => Buffer(uuid(), 'hex'),
+        get: function() {
+          return Buffer.from(this.getDataValue('uuid')).toString('hex')
+        }
+      },
+      email: {
+        allowNull: false,
+        unique: true,
+        type: DataTypes.STRING,
+        validate: {
+          isEmail: true
+        }
+      },
+      password: {
+        allowNull: false,
+        type: DataTypes.STRING
       }
     },
-    email: {
-      allowNull: false,
-      unique: true,
-      type: DataTypes.STRING,
-      validate: {
-        isEmail: true
-      }
-    },
-    password: {
-      allowNull: false,
-      type: DataTypes.STRING
+    {
+      tableName: 'users',
+      timestamps: true
     }
-  }, {
-    tableName: 'users',
-    timestamps: true
-  })
+  )
 
   User.associate = function(models) {
     // associations
@@ -41,8 +42,8 @@ module.exports = (sequelize, DataTypes) => {
   // hooks
   User.beforeSave(async (user, options) => {
     if (user.changed('password')) {
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(user.password, salt);
+      const salt = await bcrypt.genSalt(10)
+      user.password = await bcrypt.hash(user.password, salt)
     }
   })
 

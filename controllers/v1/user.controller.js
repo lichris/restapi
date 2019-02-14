@@ -9,12 +9,10 @@ const get = async (req, res, next) => {
       const user = await userRepo.find(req.params.uuid)
 
       if (!user) {
-        throw (createError(httpStatus.NOT_FOUND, '사용자를 찾을 수 없습니다.'))
+        throw createError(httpStatus.NOT_FOUND, '사용자를 찾을 수 없습니다.')
       }
 
-      return res
-        .status(httpStatus.OK)
-        .json(user.toWeb())
+      return res.status(httpStatus.OK).json(user.toWeb())
     } else {
       const users = await userRepo.all()
 
@@ -25,6 +23,4 @@ const get = async (req, res, next) => {
   }
 }
 
-export {
-  get
-}
+export { get }

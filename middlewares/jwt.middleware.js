@@ -17,7 +17,8 @@ export default async (req, res, next) => {
           }
 
           uuid = payload.uuid
-        })
+        }
+      )
 
       const userRepo = new UserRepo()
       const user = await userRepo.find(uuid)

@@ -1,8 +1,6 @@
 import randomString from 'random-string'
 import models from '../../models'
-import {
-  uuid
-} from '../../utils/uuid'
+import { uuid } from '../../utils/uuid'
 
 afterAll(() => models.sequelize.close())
 

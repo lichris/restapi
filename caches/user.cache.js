@@ -14,7 +14,10 @@ class UserCache {
     try {
       await client.hsetAsync('users:id', [user.id, user.uuid])
       await client.hsetAsync('users:email', [user.email, user.uuid])
-      await client.hsetAsync('users:uuid', [user.uuid, JSON.stringify(user.toJSON())])
+      await client.hsetAsync('users:uuid', [
+        user.uuid,
+        JSON.stringify(user.toJSON())
+      ])
     } catch (e) {
       // error 로깅
       console.error(e)

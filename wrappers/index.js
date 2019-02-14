@@ -11,7 +11,7 @@ class Wrapper {
     if (!obj) {
       return null
     }
-    
+
     return new Wrapper(obj)
   }
 

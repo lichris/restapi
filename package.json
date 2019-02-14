@@ -26,7 +26,8 @@
     "mysql2": "^1.6.4",
     "redis": "^2.8.0",
     "sequelize": "^4.42.0",
-    "uuid4": "^1.1.4"
+    "uuid4": "^1.1.4",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
