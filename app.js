@@ -13,6 +13,8 @@ import jwtMiddleware from './middlewares/jwt.middleware'
 import { logger, stream } from './configs/winston'
 
 const app = express()
+const sentry = require('@sentry/node')
+sentry.init({ dsn: process.env.SENTRY_DSN })
 
 app.use(morgan('combined', { stream }))
 app.use(express.json())
@@ -30,8 +32,10 @@ app.use('/v1', v1Route)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  next(createError(404))
+  next(createError(500))
 })
+
+app.use(sentry.Handlers.errorHandler())
 
 // error handler
 app.use((err, req, res, next) => {
