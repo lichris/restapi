@@ -13,8 +13,6 @@ import jwtMiddleware from './middlewares/jwt.middleware'
 import { logger, stream } from './configs/winston'
 
 const app = express()
-const sentry = require('@sentry/node')
-sentry.init({ dsn: process.env.SENTRY_DSN })
 
 app.use(morgan('combined', { stream }))
 app.use(express.json())
@@ -35,7 +33,36 @@ app.use((req, res, next) => {
   next(createError(500))
 })
 
-app.use(sentry.Handlers.errorHandler())
+if (process.env.NODE_ENV === 'production') {
+  // 에러 핸들링 전 Sentry 로 캡쳐
+  const sentry = require('@sentry/node')
+  sentry.init({ dsn: process.env.SENTRY_DSN })
+  app.use(sentry.Handlers.errorHandler())
+
+  const { IncomingWebhook } = require('@slack/client')
+  const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK)
+  webhook.send({
+    'attachments': [
+      {
+        'color': '#ff0000',
+        'text': '에러 발생!!! 출근하라!!!',
+        'fields': [
+          {
+            'title': err.message,
+            'value': err.stack,
+            'short': false
+          }
+        ],
+        'ts': moment().unix()
+      }
+    ]
+  }, (err, res) => {
+    // 심지어 여기서도 에러가...?
+    if (err) {
+      sentry.captureException(err)
+    }
+  })
+}
 
 // error handler
 app.use((err, req, res, next) => {
