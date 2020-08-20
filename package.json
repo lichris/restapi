@@ -11,7 +11,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
     "@sentry/node": "^4.6.4",
-    "bcrypt": "^3.0.3",
+    "bcrypt": "^5.0.0",
     "bluebird": "^3.5.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
